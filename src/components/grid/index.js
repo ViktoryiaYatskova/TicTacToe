@@ -1,16 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import './grid.css';
-import Cell from '../cell';
-import { convertCellIndexToCoordinated } from '../../Helpers';
+import Row from './row';
+import { convertCellIndexToCoordinated, splitCellsToRows } from '../../Helpers';
 import { connect } from 'react-redux';
-import { cells } from '../../Selectors';
+import { ROWS_NUMBER, COLUMNS_NUMBER } from '../../constants/Constants';
 
-const Grid = ({ cells }) =>
-    (<div className="grid">
-        {cells.map((cell, index) =>
-            <Cell cellState={cell} coordinates={convertCellIndexToCoordinated(index)}/>
+const Grid = ({ rows, winCombination }) => (
+    <div className="grid">
+        {rows.map((cells, rowIndex) =>
+            (<Row
+                cells={cells}
+                rowIndex={rowIndex}
+                key={rowIndex}
+                winCombination={winCombination}
+            />)
         )}
-    </div>);
+    </div>
+);
 
-export default connect({ cells })(Grid);
+const mapStateToProps = ({ cells, winCombination }) => ({
+    rows: splitCellsToRows(cells, ROWS_NUMBER, COLUMNS_NUMBER),
+    winCombination,
+});
+
+export default connect(mapStateToProps)(Grid);

@@ -1,9 +1,14 @@
 const FIELD_DIMENSION = 3;
 
+export const PlayerTools = {
+    NOUGHT: 0,
+    CROSS: 1,
+}
+
 export const CellStates = {
-  EMPTY: 0,
-  NOUGHT: 1,
-  CROSS: 2,
+  EMPTY: -1,
+  NOUGHT: PlayerTools.NOUGHT,
+  CROSS: PlayerTools.CROSS,
 };
 
 export const CellStateClasses = {

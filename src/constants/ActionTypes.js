@@ -1,3 +1,3 @@
 export default {
-  TOGGLE_CELL: 0,
+  MAKE_STEP: 0,
 }
