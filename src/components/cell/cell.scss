@@ -1,0 +1,15 @@
+.cell {
+  border: 1px solid rgb(122, 251, 228);
+  width: 100px;
+  height: 100px;
+}
+
+.empty-cell {
+    background-color: rgb(174, 234, 240);
+}
+.nought-cell {
+    background-color: rgb(62, 105, 255);
+}
+.cross-cell {
+    background-color: rgb(229, 237, 79);
+}
