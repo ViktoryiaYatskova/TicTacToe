@@ -93,11 +93,32 @@ function checkRows(cells) {
 }
 
 /**
- * TODO: implement it
  * @param  {Array} cells
  * @returns {Array|null} winning cells combination
  */
-function checkColumns(cells) {}
+function checkColumns(cells) {
+    for (let i = 0; i < COLUMNS_NUMBER; i++) {
+        let prevCell;
+        let isWin = true;
+
+        for(let j = 0; j < ROWS_NUMBER; j++) {
+            const currentCell = cells[i + j * ROWS_NUMBER];
+
+            if (currentCell.value === CellStates.EMPTY) {
+                isWin = false;
+                break;
+            }
+
+            if (prevCell) {
+                isWin = prevCell.value === currentCell.value;
+                if (!isWin) break;
+            } else {
+                prevCell = currentCell;
+            }
+        }
+        if (isWin) return cells.filter((cell, idx) => idx % COLUMNS_NUMBER === i);
+    }
+}
 
 /**
  * TODO: implement it
