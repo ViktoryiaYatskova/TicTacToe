@@ -121,8 +121,38 @@ function checkColumns(cells) {
 }
 
 /**
- * TODO: implement it
  * @param  {Array} cells
  * @returns {Array|null} winning cells combination
  */
-function checkDiagonals(cells) {}
+function checkDiagonals(cells) {
+    let prevCell;
+    let isWin;
+    let diagonalElements;
+    const getFirstDiagonalElementIdx = (j) => j + j * COLUMNS_NUMBER;
+    const getSecondDiagonalElementIdx = (j) => (COLUMNS_NUMBER * (j + 1) - j - 1);
+
+    if ([getFirstDiagonalElementIdx, getSecondDiagonalElementIdx].find((getIdx) => {
+        diagonalElements = [];
+        isWin = true;
+
+        for(let j = 0; j < ROWS_NUMBER; j++) {
+            const currentCell = cells[getIdx(j)];
+
+            if (currentCell.value === CellStates.EMPTY) {
+                isWin = false;
+                break;
+            }
+
+            if (prevCell) {
+                isWin = prevCell.value === currentCell.value;
+                if (!isWin) break;
+            } else {
+                prevCell = currentCell;
+            }
+            diagonalElements.push(currentCell);
+        }
+        return isWin;
+    })) {
+        return diagonalElements;
+    }
+}
