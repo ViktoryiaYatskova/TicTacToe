@@ -42,7 +42,9 @@ const rootReducers = (state = INITIAL_STATE, action) => {
 
             return state;
 
-        //TODO: case ActionTypes.RESTART_GAME:
+        case ActionTypes.RESTART_GAME:
+            return INITIAL_STATE;
+            break;
 
         default:
            return state;
