@@ -1,7 +1,7 @@
 import React from 'react';
 import './grid.css';
 import Row from './row';
-import { convertCellIndexToCoordinated, splitCellsToRows } from '../../Helpers';
+import { splitCellsToRows } from '../../Helpers';
 import { connect } from 'react-redux';
 import { ROWS_NUMBER, COLUMNS_NUMBER } from '../../constants/Constants';
 

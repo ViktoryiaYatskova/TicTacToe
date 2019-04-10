@@ -4,13 +4,14 @@ import { CellStateClasses } from '../../../constants/Constants';
 import ActionTypes from '../../../constants/ActionTypes';
 import { connect } from 'react-redux';
 
-const Cell = ({cellState, coordinates, onCellClick, isWinCell }) =>
+const Cell = ({ cellState, coordinates, onCellClick, isWinCell }) =>
     (<button
         className={`
             cell
             ${CellStateClasses[cellState]}
             ${isWinCell ? 'win-cell' : ''}`
         }
+        key={`${coordinates.row}-${coordinates.column}`}
         onClick={() => onCellClick(coordinates)}
     />);
 
