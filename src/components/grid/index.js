@@ -1,12 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './grid.css';
 import Row from './row';
 import { splitCellsToRows } from '../../Helpers';
-import { connect } from 'react-redux';
+import ActionTypes from '../../constants/ActionTypes';
 import { ROWS_NUMBER, COLUMNS_NUMBER } from '../../constants/Constants';
 
-const Grid = ({ rows, winCombination }) => (
-    <div className="grid">
+const Grid = ({ rows, winCombination, onCellClick }) => (
+    <div className="grid" onClick={onCellClick}>
         {rows.map((cells, rowIndex) =>
             (<Row
                 cells={cells}
@@ -23,4 +24,22 @@ const mapStateToProps = ({ cells, winCombination }) => ({
     winCombination,
 });
 
-export default connect(mapStateToProps)(Grid);
+const mapDispatchToProps = (dispatch) => ({
+    onCellClick: (clickEvent) => {
+        const { target } = clickEvent;
+
+        if (target.classList.contains('cell')) {
+            clickEvent.stopPropagation();
+
+            const row = +target.getAttribute('row');
+            const column = +target.getAttribute('column');
+
+            return dispatch({
+                type: ActionTypes.MAKE_STEP,
+                payload: { row, column },
+            });
+        }
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Grid);

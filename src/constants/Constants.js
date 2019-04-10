@@ -1,8 +1,8 @@
-const FIELD_DIMENSION = 3;
+const FIELD_DIMENSION = 4;
 
 export const PlayerTools = {
-    NOUGHT: 0,
-    CROSS: 1,
+  NOUGHT: 0,
+  CROSS: 1,
 }
 
 export const CellStates = {
@@ -12,9 +12,9 @@ export const CellStates = {
 };
 
 export const CellStateClasses = {
-    [CellStates.EMPTY]: 'empty-cell',
-    [CellStates.NOUGHT]: 'nought-cell',
-    [CellStates.CROSS]: 'cross-cell',
+  [CellStates.EMPTY]: 'empty-cell',
+  [CellStates.NOUGHT]: 'nought-cell',
+  [CellStates.CROSS]: 'cross-cell',
 }
 
 export const COLUMNS_NUMBER = FIELD_DIMENSION;
