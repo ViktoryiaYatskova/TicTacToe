@@ -4,7 +4,6 @@ import './grid.css';
 import Row from './row';
 import { splitCellsToRows } from '../../Helpers';
 import ActionTypes from '../../constants/ActionTypes';
-import { ROWS_NUMBER, COLUMNS_NUMBER } from '../../constants/Constants';
 
 const Grid = ({ rows, winCombination, onCellClick }) => (
     <div className="grid" onClick={onCellClick}>
@@ -19,8 +18,8 @@ const Grid = ({ rows, winCombination, onCellClick }) => (
     </div>
 );
 
-const mapStateToProps = ({ cells, winCombination }) => ({
-    rows: splitCellsToRows(cells, ROWS_NUMBER, COLUMNS_NUMBER),
+const mapStateToProps = ({ cells, winCombination, dimension }) => ({
+    rows: splitCellsToRows(cells, dimension, dimension),
     winCombination,
 });
 

@@ -1,4 +1,4 @@
-import { ROWS_NUMBER, COLUMNS_NUMBER, CellStates } from './constants/Constants';
+import { CellStates, PlayerTools } from './constants/Constants';
 
 /**
  * @param  {Array} cells
@@ -15,11 +15,10 @@ export function splitCellsToRows(cells, rowsNumber, columnNumber) {
         const startIndex = rowNumber * columnNumber;
         const endIndex = startIndex + columnNumber;
         rows.push(cells.slice(startIndex, endIndex));
-    } while(rowNumber < rowsNumber - 1);
+    } while (rowNumber < rowsNumber - 1);
 
     return rows;
 }
-
 
 /**
  * @param  {number} currentPlayerTool
@@ -29,16 +28,15 @@ export function getNextPlayerTool(currentPlayerTool) {
     return Number(!currentPlayerTool);
 }
 
-
 /**
- * @param  {number} rowIndex    description
- * @param  {number} columnIndex description
- * @returns {number}             description
+ * @param  {number} rowIndex
+ * @param  {number} columnIndex 
+ * @param  {number} columnIndimension
+ * @returns {number}
  */
-export function generateCellId(rowIndex, columnIndex) {
-    return rowIndex * ROWS_NUMBER + columnIndex;//`${columnIndex}-${rowIndex}`;
+export function generateCellId(rowIndex, columnIndex, dimension) {
+    return rowIndex * dimension + columnIndex;//`${columnIndex}-${rowIndex}`;
 }
-
 
 /**
  * @param  {Array} winningCombination
@@ -53,12 +51,13 @@ export function isWinCell(winningCombination, cell) {
 
 /**
  * @param  {Array} cells
+ * @param  {Number} rowsNumber
  * @returns {Array} winning cells combination
  */
-export function checkForWin(cells) {
+export function checkForWin(cells, rowsNumber) {
     let winCombination = [];
     [checkRows, checkColumns, checkDiagonals].find((check) => {
-        winCombination = check(cells);
+        winCombination = check(cells, rowsNumber);
         return winCombination;
     });
     return winCombination;
@@ -68,13 +67,14 @@ export function checkForWin(cells) {
  * @param  {Array} cells
  * @returns {Array|null} winning cells combination
  */
-function checkRows(cells) {
-    for (let i = 0; i < ROWS_NUMBER; i++) {
+function checkRows(cells, rowsNumber) {
+    const columnsNumber = cells.length / rowsNumber;
+    for (let i = 0; i < rowsNumber; i++) {
         let prevCell;
         let isWin = true;
 
-        for(let j = 0; j < COLUMNS_NUMBER; j++) {
-            const currentCell = cells[i * COLUMNS_NUMBER + j];
+        for (let j = 0; j < columnsNumber; j++) {
+            const currentCell = cells[i * columnsNumber + j];
 
             if (currentCell.value === CellStates.EMPTY) {
                 isWin = false;
@@ -88,21 +88,23 @@ function checkRows(cells) {
                 prevCell = currentCell;
             }
         }
-        if (isWin) return cells.slice(i * COLUMNS_NUMBER, (i + 1) * COLUMNS_NUMBER);
+        if (isWin) return cells.slice(i * columnsNumber, (i + 1) * columnsNumber);
     }
 }
 
 /**
  * @param  {Array} cells
+ * @param {Number} rowsNumber
  * @returns {Array|null} winning cells combination
  */
-function checkColumns(cells) {
-    for (let i = 0; i < COLUMNS_NUMBER; i++) {
+function checkColumns(cells, rowsNumber) {
+    const columnsNumber = cells.length / rowsNumber;
+    for (let i = 0; i < columnsNumber; i++) {
         let prevCell;
         let isWin = true;
 
-        for(let j = 0; j < ROWS_NUMBER; j++) {
-            const currentCell = cells[i + j * ROWS_NUMBER];
+        for (let j = 0; j < rowsNumber; j++) {
+            const currentCell = cells[i + j * rowsNumber];
 
             if (currentCell.value === CellStates.EMPTY) {
                 isWin = false;
@@ -116,7 +118,7 @@ function checkColumns(cells) {
                 prevCell = currentCell;
             }
         }
-        if (isWin) return cells.filter((cell, idx) => idx % COLUMNS_NUMBER === i);
+        if (isWin) return cells.filter((cell, idx) => idx % columnsNumber === i);
     }
 }
 
@@ -124,18 +126,19 @@ function checkColumns(cells) {
  * @param  {Array} cells
  * @returns {Array|null} winning cells combination
  */
-function checkDiagonals(cells) {
+function checkDiagonals(cells, rowsNumber) {
     let prevCell;
     let isWin;
     let diagonalElements;
-    const getFirstDiagonalElementIdx = (j) => j + j * COLUMNS_NUMBER;
-    const getSecondDiagonalElementIdx = (j) => (COLUMNS_NUMBER * (j + 1) - j - 1);
+    const columnsNumber = cells.length / rowsNumber;
+    const getFirstDiagonalElementIdx = (j) => j + j * columnsNumber;
+    const getSecondDiagonalElementIdx = (j) => (columnsNumber * (j + 1) - j - 1);
 
     if ([getFirstDiagonalElementIdx, getSecondDiagonalElementIdx].find((getIdx) => {
         diagonalElements = [];
         isWin = true;
 
-        for(let j = 0; j < ROWS_NUMBER; j++) {
+        for (let j = 0; j < rowsNumber; j++) {
             const currentCell = cells[getIdx(j)];
 
             if (currentCell.value === CellStates.EMPTY) {
@@ -156,3 +159,23 @@ function checkDiagonals(cells) {
         return diagonalElements;
     }
 }
+
+/**
+ * @param {Number} rowsNumber 
+ * @param {Number} columnsNumber 
+ * @returns {Array} of empty cells
+ */
+export const getInitialCells = (rowsNumber, columnsNumber) =>
+    Array(rowsNumber * columnsNumber)
+        .fill(0)
+        .map((cell, idx) => ({ value: CellStates.EMPTY, id: idx }));
+
+/**
+ * @param {Number} dimension 
+ */
+export const getInitialState = (dimension) => ({
+    cells: getInitialCells(dimension, dimension),
+    playerTool: PlayerTools.NOUGHT,
+    winCombination: [],
+    dimension,
+});

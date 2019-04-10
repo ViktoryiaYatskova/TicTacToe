@@ -1,4 +1,5 @@
-const FIELD_DIMENSION = 4;
+export const INITIAL_DIMENSION = 3;
+export const MIN_DIMENSION = 1;
 
 export const PlayerTools = {
   NOUGHT: 0,
@@ -16,6 +17,3 @@ export const CellStateClasses = {
   [CellStates.NOUGHT]: 'nought-cell',
   [CellStates.CROSS]: 'cross-cell',
 }
-
-export const COLUMNS_NUMBER = FIELD_DIMENSION;
-export const ROWS_NUMBER = FIELD_DIMENSION;

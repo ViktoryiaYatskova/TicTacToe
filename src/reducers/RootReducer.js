@@ -1,24 +1,14 @@
-import { COLUMNS_NUMBER, ROWS_NUMBER, CellStates, PlayerTools } from '../constants/Constants';
+import { INITIAL_DIMENSION, CellStates } from '../constants/Constants';
 import ActionTypes from '../constants/ActionTypes';
-import { getNextPlayerTool, checkForWin } from '../Helpers';
+import { getNextPlayerTool, checkForWin, getInitialState } from '../Helpers';
 
-const INITIAL_CELLS = Array(ROWS_NUMBER * COLUMNS_NUMBER)
-    .fill(0)
-    .map((cell, idx) => ({ value: CellStates.EMPTY, id: idx }));
-
-const INITIAL_STATE = {
-    cells: INITIAL_CELLS,
-    playerTool: PlayerTools.NOUGHT,
-    winCombination: [],
-};
-
-const rootReducers = (state = INITIAL_STATE, action) => {
+const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
     switch (action.type) {
 
-        case ActionTypes.MAKE_STEP:
-            const { cells, playerTool, winCombination } = state;
+        case ActionTypes.MAKE_STEP: {
+            const { cells, playerTool, winCombination, dimension } = state;
             const { column, row } = action.payload;
-            const cellIndex = column + row * ROWS_NUMBER;
+            const cellIndex = column + row * dimension;
             const cellValue = cells[cellIndex].value;
             const isGameOver = !!winCombination.length;
 
@@ -31,19 +21,25 @@ const rootReducers = (state = INITIAL_STATE, action) => {
                 newCells.splice(cellIndex, 1, newCell);
 
                 const nextPlayerTool = getNextPlayerTool(playerTool);
-                const winCombination = checkForWin(newCells) || [];
-                const newState = Object.assign({}, state, {
+                const winCombination = checkForWin(newCells, dimension) || [];
+                const newState = {
+                    ...state,
                     cells: newCells,
                     playerTool: nextPlayerTool,
                     winCombination,
-                });
+                };
                 return newState;
             }
-
             return state;
+        }
 
         case ActionTypes.RESTART_GAME:
-            return INITIAL_STATE;
+            return getInitialState(state.dimension);
+
+        case ActionTypes.CHANGE_DIMENSION: {
+            const dimension = action.payload;
+            return getInitialState(dimension);
+        }
 
         default:
             return state;
