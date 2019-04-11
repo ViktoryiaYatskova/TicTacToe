@@ -5,12 +5,10 @@ import './app.css';
 
 class App extends Component {
     render() {
-        return (
-            <div>
-                <Grid />
-                <ControlPanel />
-            </div>
-        );
+        return (<>
+            <Grid />
+            <ControlPanel />
+        </>);
     }
 }
 

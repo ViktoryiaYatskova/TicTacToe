@@ -1,13 +1,26 @@
+@import "../../general-styles/variables";
+
 .control-panel {
     margin: 1.5em;
     text-align: center;
 }
 
+%control-panel-input {
+    box-sizing: border-box;
+    height: 2em;
+
+    border-radius: $input-radius;
+    border: 1px solid #bababa;
+}
+
 #dimension-input {
+    @extend %control-panel-input;
+
+    padding: 0 $input-radius;
     margin: 0 1.5em;
+    width: 4em;
 }
 
 #restart-btn {
-    height: 2em;
-    border-radius: 10px;
+    @extend %control-panel-input;
 }

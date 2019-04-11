@@ -1,3 +1,14 @@
+@import "../../../general-styles/variables";
+
+%filled-cell {
+    background-color: #fff;
+    &::before {
+        font-size: 72px;
+        width: 100%;
+        height: 100%;
+    }
+}
+
 .cell {
     margin: 2px;
     width: 100px;
@@ -14,29 +25,33 @@
         color: #fff;
     }
 
-    &.win-cell {
-        background-color: rgb(0, 224, 43);
+    &.win-cell{
+        background-color: #dcffdc;
+        &::before {
+            color: rgb(21, 58, 46);
+        }
+    }
+
+    @media screen and (max-width: 50 * ) {
+        
     }
 }
 
 .empty-cell {
-    background-color: rgb(174, 234, 240);
+    background-color: #e5f3f5;
 }
+
 .nought-cell {
-    background-color: #fbf08f;
+    @extend %filled-cell;
     &::before {
         content: "O";
-        font-size: 72px;
-        width: 100%;
-        height: 100%;
+        color: #d60000;
     }
 }
 .cross-cell {
-    background-color: #ffa4a4;
+    @extend %filled-cell;
     &::before {
         content: "X";
-        font-size: 72px;
-        width: 100%;
-        height: 100%;
+        color: #141414;
     }
 }
