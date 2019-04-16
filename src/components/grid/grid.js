@@ -32,19 +32,27 @@ class Grid extends React.Component {
     }
 
     componentDidUpdate() {
-        const { dimension, updateCellSize } = this.props;
+
+        this.adjustCellSize(this.props);
+    }
+
+    componentDidMount() {
+        this.adjustCellSize(this.props);
+    }
+
+    adjustCellSize({ dimension, dispatchUpdateCellSize, cellSize }) {
         const gridDomElement = this.gridRef.current;
         const { clientWidth, clientHeight } = gridDomElement;
         const minClientSize = Math.min(clientHeight, clientWidth);
         const currentCellSize = this.props.cellSize;
-        let cellSize = currentCellSize;
+        let resultCellSize = currentCellSize;
 
         if (shouldChangeCellSize(dimension, dimension, clientWidth, clientHeight, cellSize, CELL_SIZE_UNIT)) {
-            cellSize = convertPxTo(minClientSize, CELL_SIZE_UNIT) / dimension;
+            resultCellSize = convertPxTo(minClientSize, CELL_SIZE_UNIT) / dimension;
         }
 
-        if (cellSize !== currentCellSize) {
-            updateCellSize(cellSize);
+        if (resultCellSize !== currentCellSize) {
+            dispatchUpdateCellSize(resultCellSize);
         }
     }
 };
@@ -77,7 +85,7 @@ const mapDispatchToProps = (dispatch) => ({
     /**
      * @param  {number} newCellSize 
      */
-    updateCellSize: (newCellSize) => {
+    dispatchUpdateCellSize: (newCellSize) => {
         return dispatch({
             type: ActionTypes.CHANGE_CELL_SIZE,
             payload: newCellSize

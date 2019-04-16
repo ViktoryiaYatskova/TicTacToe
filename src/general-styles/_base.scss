@@ -13,10 +13,10 @@ html {
 
 body {
   padding: 0;
-  margin: 0;
+  margin: #{$body-margin-value}vh #{$body-margin-value}vw;
 
-  width: 100vw;
-  height: 100vh;
+  width: #{100 - 2 * $body-margin-value}vw;
+  height: #{100 - 2 * $body-margin-value}vh;
 
   font-size: $base-font-size;
 }

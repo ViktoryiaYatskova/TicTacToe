@@ -4,14 +4,22 @@ import ActionTypes from '../../constants/ActionTypes';
 import { MIN_DIMENSION } from '../../constants/Constants';
 import './control-panel.css';
 
-const ControlPanel = ({ onRestartClick, onChangeDimension }) => (
+const ControlPanel = ({ onRestartClick, onChangeDimension, dimension }) => (
     <div className="control-panel">
         <label htmlFor="dimension">Dimension</label>
         <input
             id="dimension-input"
             name="dimension"
             type="text"
-            onKeyUp={onChangeDimension} />
+            onKeyUp={onChangeDimension}
+        />
+        <label htmlFor="win-combination-length">Win dimension length</label>
+        <input
+            type="range"
+            id="win-combination-length"
+            name="win-combination-length"
+            min={MIN_DIMENSION} max={dimension}
+        />
         <button
             id="restart-btn"
             onClick={onRestartClick}>

@@ -93,10 +93,26 @@ export const getGridProps = (dimension) => ({
     dimension,
 });
 
+/**
+ * @param {number} rowsNumber 
+ * @param {number} columnsNumber 
+ * @param {number} gridWidth 
+ * @param {number} gridHeight 
+ * @param {number} cellSize 
+ * @param {string} cellSizeUnit 
+ * @returns {boolean}
+ */
 export const shouldChangeCellSize = (rowsNumber, columnsNumber, gridWidth, gridHeight, cellSize, cellSizeUnit) => {
     const cellSizePx = convertToPx(cellSize, cellSizeUnit);
-    return rowsNumber * cellSizePx > gridWidth ||
+    const shouldDecreaseCell = () =>
+        rowsNumber * cellSizePx > gridWidth ||
         columnsNumber * cellSizePx > gridHeight;
+
+    const shouldIncreaseCell = () =>
+        (rowsNumber + 1) * cellSizePx <= gridWidth &&
+        (columnsNumber + 1) * cellSizePx <= gridHeight;
+
+    return shouldDecreaseCell() || shouldIncreaseCell();
 };
 
 export function convertToPx(value, measurement) {
