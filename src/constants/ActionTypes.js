@@ -2,4 +2,5 @@ export default {
   MAKE_STEP: 0,
   RESTART_GAME: 1,
   CHANGE_DIMENSION: 2,
+  CHANGE_CELL_SIZE: 3,
 }

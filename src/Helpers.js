@@ -1,4 +1,11 @@
-import { CellStates, PlayerTools } from './constants/Constants';
+import {
+    INITIAL_CELL_SIZE,
+    INITIAL_PLAYERS_NUMBER,
+    EMPTY_CELL,
+    TOOL_COLOURS,
+    DEFAULT_COLOUR,
+} from './constants/Constants';
+import { getPlayerTools } from './PlayerTools.Helpers';
 
 /**
  * @param  {Array} cells
@@ -18,14 +25,6 @@ export function splitCellsToRows(cells, rowsNumber, columnNumber) {
     } while (rowNumber < rowsNumber - 1);
 
     return rows;
-}
-
-/**
- * @param  {number} currentPlayerTool
- * @returns {number}
- */
-export function getNextPlayerTool(currentPlayerTool) {
-    return Number(!currentPlayerTool);
 }
 
 /**
@@ -64,6 +63,79 @@ export function checkForWin(cells, rowsNumber) {
 }
 
 /**
+ * @param {Number} rowsNumber 
+ * @param {Number} columnsNumber 
+ * @returns {Array} of empty cells
+ */
+export const getInitialCells = (rowsNumber, columnsNumber) =>
+    Array(rowsNumber * columnsNumber)
+        .fill(0)
+        .map((cell, idx) => ({ value: EMPTY_CELL, id: idx }));
+
+/**
+ * @param {Number} dimension 
+ */
+export const getInitialState = (dimension) => {
+    const playerTools = getPlayerTools(INITIAL_PLAYERS_NUMBER);
+    return {
+        cells: getInitialCells(dimension, dimension),
+        playerTools,
+        playerToolIndex: 0,
+        winCombination: [],
+        dimension,
+        cellSize: INITIAL_CELL_SIZE,
+    };
+};
+
+export const getGridProps = (dimension) => ({
+    cells: getInitialCells(dimension, dimension),
+    winCombination: [],
+    dimension,
+});
+
+export const shouldChangeCellSize = (rowsNumber, columnsNumber, gridWidth, gridHeight, cellSize, cellSizeUnit) => {
+    const cellSizePx = convertToPx(cellSize, cellSizeUnit);
+    return rowsNumber * cellSizePx > gridWidth ||
+        columnsNumber * cellSizePx > gridHeight;
+};
+
+export function convertToPx(value, measurement) {
+    switch (measurement) {
+        case 'vmin': {
+            const { clientWidth, clientHeight } = document.documentElement;
+            const minDimenion = Math.min(clientHeight, clientWidth);
+            return value * minDimenion / 100;
+        }
+
+        case 'px':
+        default:
+            return measurement;
+    }
+}
+
+export function convertPxTo(value, measurement) {
+    switch (measurement) {
+        case 'vmin': {
+            const { clientWidth, clientHeight } = document.documentElement;
+            const minDimenion = Math.min(clientHeight, clientWidth);
+            return value / minDimenion * 100;
+        }
+
+        case 'px':
+        default:
+            return measurement;
+    }
+}
+
+/**
+ * @param  {number} toolIndex 
+ * @returns {string} 
+ */
+export function getToolColour(toolIndex) {
+    return TOOL_COLOURS[toolIndex] || DEFAULT_COLOUR;
+}
+
+/**
  * @param  {Array} cells
  * @returns {Array|null} winning cells combination
  */
@@ -76,7 +148,7 @@ function checkRows(cells, rowsNumber) {
         for (let j = 0; j < columnsNumber; j++) {
             const currentCell = cells[i * columnsNumber + j];
 
-            if (currentCell.value === CellStates.EMPTY) {
+            if (currentCell.value === EMPTY_CELL) {
                 isWin = false;
                 break;
             }
@@ -99,6 +171,7 @@ function checkRows(cells, rowsNumber) {
  */
 function checkColumns(cells, rowsNumber) {
     const columnsNumber = cells.length / rowsNumber;
+
     for (let i = 0; i < columnsNumber; i++) {
         let prevCell;
         let isWin = true;
@@ -106,7 +179,7 @@ function checkColumns(cells, rowsNumber) {
         for (let j = 0; j < rowsNumber; j++) {
             const currentCell = cells[i + j * rowsNumber];
 
-            if (currentCell.value === CellStates.EMPTY) {
+            if (currentCell.value === EMPTY_CELL) {
                 isWin = false;
                 break;
             }
@@ -141,7 +214,7 @@ function checkDiagonals(cells, rowsNumber) {
         for (let j = 0; j < rowsNumber; j++) {
             const currentCell = cells[getIdx(j)];
 
-            if (currentCell.value === CellStates.EMPTY) {
+            if (currentCell.value === EMPTY_CELL) {
                 isWin = false;
                 break;
             }
@@ -159,23 +232,3 @@ function checkDiagonals(cells, rowsNumber) {
         return diagonalElements;
     }
 }
-
-/**
- * @param {Number} rowsNumber 
- * @param {Number} columnsNumber 
- * @returns {Array} of empty cells
- */
-export const getInitialCells = (rowsNumber, columnsNumber) =>
-    Array(rowsNumber * columnsNumber)
-        .fill(0)
-        .map((cell, idx) => ({ value: CellStates.EMPTY, id: idx }));
-
-/**
- * @param {Number} dimension 
- */
-export const getInitialState = (dimension) => ({
-    cells: getInitialCells(dimension, dimension),
-    playerTool: PlayerTools.NOUGHT,
-    winCombination: [],
-    dimension,
-});

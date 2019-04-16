@@ -1,17 +1,25 @@
 import React from 'react';
 import './cell.css';
-import { CellStateClasses } from '../../../constants/Constants';
+import { EMPTY_CELL, CELL_SIZE_UNIT } from '../../../constants/Constants';
+import { getToolColour } from '../../../Helpers';
 
-const Cell = ({ cellState, coordinates, onCellClick, isWinCell }) =>
-    (<button
-        className={`
-            cell
-            ${CellStateClasses[cellState]}
-            ${isWinCell ? 'win-cell' : ''}`
-        }
+const Cell = ({ cellState, coordinates, isWinCell, cellSize, playerTools }) => {
+    // const cellStateClass = CellStateClasses[cellState];
+    const classes = `cell 
+                    ${cellState === EMPTY_CELL ? 'empty-cell' : ''} 
+                    ${isWinCell ? 'win-cell' : ''}`;
+    const cellContent = playerTools[cellState] || '';
+    return (<button
+        style={{
+            color: getToolColour(cellState),
+            width: cellSize + CELL_SIZE_UNIT,
+            height: cellSize + CELL_SIZE_UNIT
+        }}
+        className={classes}
         row={coordinates.row}
         column={coordinates.column}
         key={`${coordinates.row}-${coordinates.column}`}
-    />);
+    >{cellContent}</button>);
+};
 
 export default Cell;

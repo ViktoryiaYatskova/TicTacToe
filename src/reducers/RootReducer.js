@@ -1,31 +1,32 @@
-import { INITIAL_DIMENSION, CellStates } from '../constants/Constants';
+import { INITIAL_DIMENSION, EMPTY_CELL } from '../constants/Constants';
 import ActionTypes from '../constants/ActionTypes';
-import { getNextPlayerTool, checkForWin, getInitialState } from '../Helpers';
+import { checkForWin, getInitialState, getGridProps } from '../Helpers';
+import { getNextPlayerTool } from '../PlayerTools.Helpers';
 
 const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
     switch (action.type) {
 
         case ActionTypes.MAKE_STEP: {
-            const { cells, playerTool, winCombination, dimension } = state;
+            const { cells, playerToolIndex, winCombination, dimension, playerTools } = state;
             const { column, row } = action.payload;
             const cellIndex = column + row * dimension;
             const cellValue = cells[cellIndex].value;
             const isGameOver = !!winCombination.length;
 
-            if (cellValue === CellStates.EMPTY && !isGameOver) {
+            if (cellValue === EMPTY_CELL && !isGameOver) {
                 const newCells = cells.slice(0);
                 const newCell = {
                     id: cells[cellIndex].id,
-                    value: playerTool,
+                    value: playerToolIndex,
                 }
                 newCells.splice(cellIndex, 1, newCell);
 
-                const nextPlayerTool = getNextPlayerTool(playerTool);
+                const nextPlayerToolIndex = getNextPlayerTool(playerToolIndex, playerTools);
                 const winCombination = checkForWin(newCells, dimension) || [];
                 const newState = {
                     ...state,
                     cells: newCells,
-                    playerTool: nextPlayerTool,
+                    playerToolIndex: nextPlayerToolIndex,
                     winCombination,
                 };
                 return newState;
@@ -34,11 +35,27 @@ const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
         }
 
         case ActionTypes.RESTART_GAME:
-            return getInitialState(state.dimension);
+            return {
+                ...state,
+                playerToolIndex: 0,
+                ...getGridProps(state.dimension),
+            };
 
         case ActionTypes.CHANGE_DIMENSION: {
             const dimension = action.payload;
-            return getInitialState(dimension);
+            return {
+                ...state,
+                playerToolIndex: 0,
+                ...getGridProps(dimension),
+            };
+        }
+
+        case ActionTypes.CHANGE_CELL_SIZE: {
+            const cellSize = action.payload;
+            return {
+                ...state,
+                cellSize
+            };
         }
 
         default:

@@ -1,7 +1,9 @@
 @import "../../general-styles/variables";
 
 .control-panel {
-    margin: 1.5em;
+    box-sizing: border-box;
+    padding: $control-panel-padding;
+    height: $control-panel-height;
     text-align: center;
 }
 

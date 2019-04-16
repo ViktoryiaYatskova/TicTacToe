@@ -1,19 +1,14 @@
 export const INITIAL_DIMENSION = 3;
 export const MIN_DIMENSION = 1;
+export const CELL_SIZE_UNIT = 'vmin';
+export const INITIAL_CELL_SIZE = 16;
+export const INITIAL_PLAYERS_NUMBER = 2;
 
-export const PlayerTools = {
-  NOUGHT: 0,
-  CROSS: 1,
-}
+export const EMPTY_CELL = '';
+export const DefaultPlayerTools = ['X', 'O'];
 
-export const CellStates = {
-  EMPTY: -1,
-  NOUGHT: PlayerTools.NOUGHT,
-  CROSS: PlayerTools.CROSS,
-};
-
-export const CellStateClasses = {
-  [CellStates.EMPTY]: 'empty-cell',
-  [CellStates.NOUGHT]: 'nought-cell',
-  [CellStates.CROSS]: 'cross-cell',
-}
+export const TOOL_COLOURS = [
+  '#000',
+  '#de0000'
+];
+export const DEFAULT_COLOUR = '#000';

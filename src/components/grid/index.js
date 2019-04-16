@@ -2,25 +2,59 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './grid.css';
 import Row from './row';
-import { splitCellsToRows } from '../../Helpers';
+import { splitCellsToRows, shouldChangeCellSize, convertPxTo } from '../../Helpers';
 import ActionTypes from '../../constants/ActionTypes';
+import { CELL_SIZE_UNIT } from '../../constants/Constants';
 
-const Grid = ({ rows, winCombination, onCellClick }) => (
-    <div className="grid" onClick={onCellClick}>
-        {rows.map((cells, rowIndex) =>
-            (<Row
-                cells={cells}
-                rowIndex={rowIndex}
-                key={rowIndex}
-                winCombination={winCombination}
-            />)
-        )}
-    </div>
-);
+class Grid extends React.Component {
+    constructor(props) {
+        super(props);
+        this.gridRef = React.createRef();
+    }
 
-const mapStateToProps = ({ cells, winCombination, dimension }) => ({
+    render() {
+        const { rows, onCellClick, winCombination, cellSize, playerTools } = this.props;
+
+        return (<div className="grid-wrapper" onClick={onCellClick} ref={this.gridRef} >
+            <div className="grid">
+                {rows.map((cells, rowIndex) =>
+                    (<Row
+                        playerTools={playerTools}
+                        cells={cells}
+                        rowIndex={rowIndex}
+                        key={rowIndex}
+                        cellSize={cellSize}
+                        winCombination={winCombination}
+                    />)
+                )}
+            </div>
+        </div>)
+    }
+
+    componentDidUpdate() {
+        const { dimension, updateCellSize } = this.props;
+        const gridDomElement = this.gridRef.current;
+        const { clientWidth, clientHeight } = gridDomElement;
+        const minClientSize = Math.min(clientHeight, clientWidth);
+        const currentCellSize = this.props.cellSize;
+        let cellSize = currentCellSize;
+
+        if (shouldChangeCellSize(dimension, dimension, clientWidth, clientHeight, cellSize, CELL_SIZE_UNIT)) {
+            cellSize = convertPxTo(minClientSize, CELL_SIZE_UNIT) / dimension;
+        }
+
+        if (cellSize !== currentCellSize) {
+            updateCellSize(cellSize);
+        }
+    }
+};
+
+const mapStateToProps = ({ cells, winCombination, dimension, cellSize, playerTools }) => ({
     rows: splitCellsToRows(cells, dimension, dimension),
     winCombination,
+    dimension,
+    cellSize,
+    playerTools,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -38,6 +72,16 @@ const mapDispatchToProps = (dispatch) => ({
                 payload: { row, column },
             });
         }
+    },
+
+    /**
+     * @param  {number} newCellSize 
+     */
+    updateCellSize: (newCellSize) => {
+        return dispatch({
+            type: ActionTypes.CHANGE_CELL_SIZE,
+            payload: newCellSize
+        });
     }
 });
 
