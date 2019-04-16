@@ -1,5 +1,5 @@
 import React from 'react';
-import Cell from './../cell';
+import Cell from '../cell/cell';
 import './row.css';
 import { isWinCell } from '../../../Helpers';
 
