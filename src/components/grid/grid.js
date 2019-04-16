@@ -6,7 +6,7 @@ import { splitCellsToRows, shouldChangeCellSize, convertPxTo } from '../../Helpe
 import ActionTypes from '../../constants/ActionTypes';
 import { CELL_SIZE_UNIT } from '../../constants/Constants';
 
-class Grid extends React.Component {
+class Grid extends React.PureComponent {
     constructor(props) {
         super(props);
         this.gridRef = React.createRef();
