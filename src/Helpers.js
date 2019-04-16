@@ -82,12 +82,13 @@ export const getInitialState = (dimension) => {
         playerTools,
         playerToolIndex: 0,
         winCombination: [],
+        winCombinationLength: dimension,
         dimension,
         cellSize: INITIAL_CELL_SIZE,
     };
 };
 
-export const getGridProps = (dimension) => ({
+export const getInitialGridProps = (dimension) => ({
     cells: getInitialCells(dimension, dimension),
     winCombination: [],
     dimension,

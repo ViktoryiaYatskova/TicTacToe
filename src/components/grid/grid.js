@@ -15,8 +15,8 @@ class Grid extends React.PureComponent {
     render() {
         const { rows, onCellClick, winCombination, cellSize, playerTools } = this.props;
 
-        return (<div className="grid-wrapper" onClick={onCellClick} ref={this.gridRef} >
-            <div className="grid">
+        return (<div id="grid-wrapper" onClick={onCellClick} ref={this.gridRef} >
+            <div id="grid">
                 {rows.map((cells, rowIndex) =>
                     (<Row
                         playerTools={playerTools}
@@ -32,7 +32,6 @@ class Grid extends React.PureComponent {
     }
 
     componentDidUpdate() {
-
         this.adjustCellSize(this.props);
     }
 

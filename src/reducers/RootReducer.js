@@ -1,6 +1,6 @@
 import { INITIAL_DIMENSION, EMPTY_CELL } from '../constants/Constants';
 import ActionTypes from '../constants/ActionTypes';
-import { checkForWin, getInitialState, getGridProps } from '../Helpers';
+import { checkForWin, getInitialState, getInitialGridProps } from '../Helpers';
 import { getNextPlayerTool } from '../PlayerTools.Helpers';
 
 const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
@@ -38,7 +38,7 @@ const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
             return {
                 ...state,
                 playerToolIndex: 0,
-                ...getGridProps(state.dimension),
+                ...getInitialGridProps(state.dimension),
             };
 
         case ActionTypes.CHANGE_DIMENSION: {
@@ -46,7 +46,15 @@ const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
             return {
                 ...state,
                 playerToolIndex: 0,
-                ...getGridProps(dimension),
+                ...getInitialGridProps(dimension),
+            };
+        }
+
+        case ActionTypes.CHANGE_WIN_COMBINATION_LENGTH: {
+            const winCombinationLength = action.payload;
+            return {
+                ...state,
+                winCombinationLength,
             };
         }
 

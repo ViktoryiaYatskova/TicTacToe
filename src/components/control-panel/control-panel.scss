@@ -1,28 +1,35 @@
 @import "../../general-styles/variables";
 
-.control-panel {
+#control-panel {
     box-sizing: border-box;
-    padding: $control-panel-padding;
-    height: $control-panel-height;
+    margin-top: $control-panel-margin-top;
     text-align: center;
 }
 
-%control-panel-input {
+.control-line {
+    margin-bottom: 0.7em;
+    text-align: left;
+
+    .control-panel-label {
+        margin-right: 2em;
+    }
+}
+
+.control-panel-input {
     box-sizing: border-box;
     height: 2em;
 
     border-radius: $input-radius;
     border: 1px solid #bababa;
+
+    font-size: 1em;
 }
 
 #dimension-input {
-    @extend %control-panel-input;
-
     padding: 0 $input-radius;
-    margin: 0 1.5em;
     width: 4em;
 }
 
-#restart-btn {
-    @extend %control-panel-input;
+#win-combination-length {
+    vertical-align: middle;
 }

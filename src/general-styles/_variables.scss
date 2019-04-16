@@ -2,16 +2,14 @@ $primary: #F6E27F;
 
 $body-margin-value: 5;
 
-$input-radius: 10px;
+$input-radius: 15px;
 $big-cell: 100px;
 $medium-cell: $big-cell / 2;
 $small-cell: $medium-cell / 2;
 
 $base-font-size: 16px;
 
-$control-panel-padding: 1.5em;
-$control-panel-line-height: 1.5em;
-$control-panel-height: $control-panel-padding * 2 + $control-panel-line-height;
+$control-panel-margin-top: 1.5em;
 
 h1 {
   margin-top: 0;
