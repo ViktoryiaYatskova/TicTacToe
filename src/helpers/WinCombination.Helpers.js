@@ -58,7 +58,7 @@ function checkRows(cells, rowsNumber, winCombinationLength, lastFilledCell) {
             winCombination.length = 0;
         }
     }
-    return winCombination;
+    return winCombination.length >= winCombinationLength ? winCombination : null;
 }
 
 /**
@@ -94,7 +94,7 @@ function checkColumns(cells, rowsNumber, winCombinationLength, lastFilledCell) {
             winCombination.length = 0;
         }
     }
-    return winCombination;
+    return winCombination.length >= winCombinationLength ? winCombination : null;
 }
 
 function getCurrentElementLeftDiagonalIterator({ row, column }, rowsNumber, columnsNumber) {
