@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './grid.css';
 import Row from './row/row';
-import { splitCellsToRows, shouldChangeCellSize, convertPxTo } from '../../Helpers';
+import { splitCellsToRows, shouldChangeCellSize, convertPxTo } from '../../helpers/Helpers';
 import ActionTypes from '../../constants/ActionTypes';
 import { CELL_SIZE_UNIT } from '../../constants/Constants';
 

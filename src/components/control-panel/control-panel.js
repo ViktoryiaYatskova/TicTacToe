@@ -79,7 +79,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
 
     onChangeWinCombinationLength: (event) => {
-        const newWinCombinationLength = event.target.value;
+        const newWinCombinationLength = +event.target.value;
         dispatch({
             type: ActionTypes.CHANGE_WIN_COMBINATION_LENGTH,
             payload: newWinCombinationLength,

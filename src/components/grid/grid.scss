@@ -1,8 +1,5 @@
-@import "../../general-styles/variables";
-
 #grid-wrapper {
     overflow: hidden;
-    height: calc(100% - #{$control-panel-height});
 }
 
 #grid {

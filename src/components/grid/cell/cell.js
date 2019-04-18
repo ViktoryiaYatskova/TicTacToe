@@ -1,7 +1,7 @@
 import React from 'react';
 import './cell.css';
 import { EMPTY_CELL, CELL_SIZE_UNIT } from '../../../constants/Constants';
-import { getToolColour } from '../../../Helpers';
+import { getToolColour } from '../../../helpers/Helpers';
 
 const Cell = ({ cellState, coordinates, isWinCell, cellSize, playerTools }) => {
     // const cellStateClass = CellStateClasses[cellState];

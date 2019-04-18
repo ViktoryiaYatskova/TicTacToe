@@ -1,13 +1,22 @@
 import { INITIAL_DIMENSION, EMPTY_CELL } from '../constants/Constants';
 import ActionTypes from '../constants/ActionTypes';
-import { checkForWin, getInitialState, getInitialGridProps } from '../Helpers';
-import { getNextPlayerTool } from '../PlayerTools.Helpers';
+import { getInitialState, getInitialGridProps } from '../helpers/Helpers';
+import { checkForWin } from '../helpers/WinCombination.Helpers';
+import { getNextPlayerTool } from '../helpers/PlayerTools.Helpers';
 
 const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
     switch (action.type) {
 
         case ActionTypes.MAKE_STEP: {
-            const { cells, playerToolIndex, winCombination, dimension, playerTools } = state;
+            const {
+                cells,
+                playerToolIndex,
+                winCombination,
+                dimension,
+                playerTools,
+                winCombinationLength
+            } = state;
+            const lastFilledCell = action.payload;
             const { column, row } = action.payload;
             const cellIndex = column + row * dimension;
             const cellValue = cells[cellIndex].value;
@@ -22,7 +31,7 @@ const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
                 newCells.splice(cellIndex, 1, newCell);
 
                 const nextPlayerToolIndex = getNextPlayerTool(playerToolIndex, playerTools);
-                const winCombination = checkForWin(newCells, dimension) || [];
+                const winCombination = checkForWin(newCells, dimension, winCombinationLength, lastFilledCell) || [];
                 const newState = {
                     ...state,
                     cells: newCells,
