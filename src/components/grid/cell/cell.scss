@@ -13,12 +13,11 @@
 
     &.win-cell{
         background-color: #dcffdc;
-        color: rgb(21, 58, 46);
+        color: #02a771;
     }
 
     &:focus {
-        border: 2px solid #d3f7ff;
-        outline: none;
+        outline-offset: -4px;
     }
 }
 

@@ -11,7 +11,7 @@ const Cell = ({ cellState, coordinates, isWinCell, cellSize, playerTools }) => {
     const cellContent = playerTools[cellState] || '';
     return (<button
         style={{
-            color: getToolColour(cellState),
+            color: !isWinCell && getToolColour(cellState),
             width: cellSize + CELL_SIZE_UNIT,
             height: cellSize + CELL_SIZE_UNIT
         }}

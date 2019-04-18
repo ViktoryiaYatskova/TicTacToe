@@ -1,5 +1,3 @@
-import { EMPTY_CELL } from '../constants/Constants';
-
 /**
  * @param  {Array} winningCombination
  * @returns {boolean}

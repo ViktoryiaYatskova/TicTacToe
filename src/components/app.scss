@@ -18,3 +18,10 @@
         height: auto;
     }
 }
+
+input, button {
+    &:focus {
+        outline: 2px dashed #a7d8f5;
+        outline-offset: 1px;
+    }
+}
