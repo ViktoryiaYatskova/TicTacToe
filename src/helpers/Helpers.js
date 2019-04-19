@@ -70,6 +70,7 @@ export const getInitialState = (dimension) => {
         winCombination: [],
         winCombinationLength: dimension,
         dimension,
+        isGameInProgress: false,
         cellSize: INITIAL_CELL_SIZE,
     };
 };

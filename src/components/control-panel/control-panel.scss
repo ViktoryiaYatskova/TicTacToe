@@ -13,6 +13,19 @@
     .control-panel-label {
         margin-right: 2em;
     }
+
+    &.blocked {
+        cursor: not-allowed;
+
+        * {
+            color: $disabled-input-color;
+        }
+
+        .control-panel-input {
+            border-color: $disabled-input-color;
+            pointer-events: none;
+        }
+    }
 }
 
 .control-panel-input {

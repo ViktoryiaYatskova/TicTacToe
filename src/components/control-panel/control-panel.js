@@ -7,7 +7,8 @@ import './control-panel.css';
 const ControlPanel = ({
     onRestartClick,
     onChangeDimension,
-    isWinCombinationRangeAvailable,
+    isWinCombinationRangeConfigurable,
+    areGameOptionsBlocked,
     maxWinCombinationLength,
     minWinCombinationLength,
     winCombinationLength,
@@ -15,7 +16,7 @@ const ControlPanel = ({
 }) => {
     return (
         <div id="control-panel">
-            <div className="control-line">
+            <div className={"control-line" + (areGameOptionsBlocked ? " blocked" : "")}>
                 <label
                     className="control-panel-label"
                     htmlFor="dimension">Dimension:</label>
@@ -27,8 +28,8 @@ const ControlPanel = ({
                     onKeyUp={onChangeDimension}
                 />
             </div>
-            <div className="control-line"
-                style={{ display: isWinCombinationRangeAvailable ? null : "none" }}
+            <div className={"control-line" + (areGameOptionsBlocked ? " blocked" : "")}
+                style={{ display: isWinCombinationRangeConfigurable ? null : "none" }}
             >
                 <label
                     className="control-panel-label"
@@ -87,11 +88,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
 });
 
-const mapStateToProps = ({ dimension: maxWinCombinationLength, winCombinationLength }) => ({
-    isWinCombinationRangeAvailable: maxWinCombinationLength > MIN_DIMENSION,
+const mapStateToProps = ({ dimension: maxWinCombinationLength, winCombinationLength, isGameInProgress }) => ({
+    isWinCombinationRangeConfigurable: maxWinCombinationLength > MIN_DIMENSION,
     maxWinCombinationLength,
     minWinCombinationLength: MIN_DIMENSION,
     winCombinationLength,
+    areGameOptionsBlocked: isGameInProgress,
 });
 
 function isValidDimension(dimension) {

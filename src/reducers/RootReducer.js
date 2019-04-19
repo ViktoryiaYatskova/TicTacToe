@@ -11,18 +11,18 @@ const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
             const {
                 cells,
                 playerToolIndex,
-                winCombination,
                 dimension,
                 playerTools,
-                winCombinationLength
+                winCombinationLength,
+                winCombination,
             } = state;
             const lastFilledCell = action.payload;
             const { column, row } = action.payload;
             const cellIndex = column + row * dimension;
             const cellValue = cells[cellIndex].value;
-            const isGameOver = !!winCombination.length;
+            const isGameInProgress = !winCombination.length;
 
-            if (cellValue === EMPTY_CELL && !isGameOver) {
+            if (cellValue === EMPTY_CELL && isGameInProgress) {
                 const newCells = cells.slice(0);
                 const newCell = {
                     id: cells[cellIndex].id,
@@ -37,6 +37,7 @@ const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
                     cells: newCells,
                     playerToolIndex: nextPlayerToolIndex,
                     winCombination,
+                    isGameInProgress: !winCombination.length,
                 };
                 return newState;
             }
@@ -47,6 +48,7 @@ const rootReducers = (state = getInitialState(INITIAL_DIMENSION), action) => {
             return {
                 ...state,
                 playerToolIndex: 0,
+                isGameInProgress: false,
                 ...getInitialGridProps(state.dimension),
             };
 
