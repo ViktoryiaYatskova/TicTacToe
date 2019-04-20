@@ -1,19 +1,25 @@
 @import "../../../general-styles/variables";
 
 .cell {
+    box-sizing: border-box;
     margin: 0;
-    padding: 0;
-    vertical-align: top;
+    padding: 3vmin;
     min-width: 3vmin;
     min-height: 3vmin;
 
     border: 2px solid #fff;
+
     font-size: 3vmin;
     line-height: 3vmin;
+    vertical-align: top;
 
-    &.win-cell{
-        background-color: #dcffdc;
-        color: #02a771;
+    &.win-cell {
+        background-color: $win-combination-background-colour;
+        color: $win-combination-colour;
+
+        path {
+            stroke: $win-combination-colour;
+        }
     }
 
     &:focus {

@@ -24,8 +24,23 @@
         .control-panel-input {
             border-color: $disabled-input-color;
             pointer-events: none;
+
+            &:-internal-autofill-selected {
+                color: #cfcfcf !important;
+                background-color: #ffffff !important;
+            }
         }
     }
+}
+
+/* Override Chrome native styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
+input:-internal-autofill-selected  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: $disabled-input-color !important;
 }
 
 .control-panel-input {
